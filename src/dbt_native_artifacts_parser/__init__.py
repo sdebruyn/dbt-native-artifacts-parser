@@ -1,0 +1,53 @@
+from pathlib import Path
+from dbt.contracts.graph.manifest import Manifest
+from dbt.artifacts.schemas.manifest import WritableManifest
+from dbt.artifacts.exceptions import IncompatibleSchemaError
+from dbt.artifacts.schemas.run import RunResultsArtifact
+from dbt.artifacts.schemas.freshness import FreshnessExecutionResultArtifact
+
+
+def read_manifest(manifest_path: Path) -> Manifest:
+    if not manifest_path.exists():
+        raise ValueError(f"Manifest file not found at {manifest_path}")
+
+    if not manifest_path.is_file():
+        raise ValueError(f"Manifest path is not a file: {manifest_path}")
+
+    try:
+        writable_manifest = WritableManifest.read_and_check_versions(str(manifest_path))
+        manifest = Manifest.from_writable_manifest(writable_manifest)
+    except IncompatibleSchemaError as exc:
+        exc.add_filename(str(manifest_path))
+        raise
+
+    return manifest
+
+
+def read_results(results_path: Path) -> RunResultsArtifact:
+    if not results_path.exists():
+        raise ValueError(f"Results file not found at {results_path}")
+
+    if not results_path.is_file():
+        raise ValueError(f"Results path is not a file: {results_path}")
+
+    try:
+        return RunResultsArtifact.read_and_check_versions(str(results_path))
+    except IncompatibleSchemaError as exc:
+        exc.add_filename(str(results_path))
+        raise
+
+
+def read_sources(sources_path: Path) -> FreshnessExecutionResultArtifact:
+    if not sources_path.exists():
+        raise ValueError(f"Sources file not found at {sources_path}")
+
+    if not sources_path.is_file():
+        raise ValueError(f"Sources path is not a file: {sources_path}")
+
+    try:
+        return FreshnessExecutionResultArtifact.read_and_check_versions(
+            str(sources_path)
+        )
+    except IncompatibleSchemaError as exc:
+        exc.add_filename(str(sources_path))
+        raise

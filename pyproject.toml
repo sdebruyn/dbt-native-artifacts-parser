@@ -1,0 +1,29 @@
+[project]
+name = "dbt-native-artifacts-parser"
+version = "0.1.0"
+description = "An artifact parser for dbt using dbt-core's built-in classes"
+authors = [
+    { name = "Sam Debruyn", email = "sam@debruyn.dev" }
+]
+dependencies = [
+    "dbt-core>=1.8.7",
+]
+readme = "README.md"
+requires-python = ">= 3.8"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+universal = true
+managed = true
+dev-dependencies = [
+    "ruff>=0.7.0",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/dbt_native_artifacts_parser"]
