@@ -1,6 +1,6 @@
 [project]
 name = "dbt-native-artifacts-parser"
-version = "0.1.0"
+version = "0.1.1"
 description = "An artifact parser for dbt using dbt-core's built-in classes"
 authors = [
     { name = "Sam Debruyn", email = "pypi.sam@debruyn.dev" }
@@ -10,6 +10,11 @@ dependencies = [
 ]
 readme = "README.md"
 requires-python = ">= 3.8"
+license = {text = "MIT"}
+keywords = ["dbt", "artifacts", "parser", "dbt-core"]
+
+[project.urls]
+Repository = "https://github.com/sdebruyn/dbt-native-artifacts-parser"
 
 [build-system]
 requires = ["hatchling"]
