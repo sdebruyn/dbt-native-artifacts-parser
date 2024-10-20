@@ -7,7 +7,9 @@ from dbt.artifacts.schemas.freshness import FreshnessExecutionResultArtifact
 from dbt.artifacts.schemas.catalog import CatalogArtifact
 
 
-def read_manifest(manifest_path: Path) -> Manifest:
+def read_manifest(manifest_path: str) -> Manifest:
+    manifest_path = Path(manifest_path)
+
     if not manifest_path.exists():
         raise ValueError(f"Manifest file not found at {manifest_path}")
 
@@ -24,7 +26,9 @@ def read_manifest(manifest_path: Path) -> Manifest:
     return manifest
 
 
-def read_results(results_path: Path) -> RunResultsArtifact:
+def read_results(results_path: str) -> RunResultsArtifact:
+    results_path = Path(results_path)
+
     if not results_path.exists():
         raise ValueError(f"Results file not found at {results_path}")
 
@@ -38,7 +42,9 @@ def read_results(results_path: Path) -> RunResultsArtifact:
         raise
 
 
-def read_sources(sources_path: Path) -> FreshnessExecutionResultArtifact:
+def read_sources(sources_path: str) -> FreshnessExecutionResultArtifact:
+    sources_path = Path(sources_path)
+
     if not sources_path.exists():
         raise ValueError(f"Sources file not found at {sources_path}")
 
@@ -54,7 +60,9 @@ def read_sources(sources_path: Path) -> FreshnessExecutionResultArtifact:
         raise
 
 
-def read_catalog(catalog_path: Path) -> CatalogArtifact:
+def read_catalog(catalog_path: str) -> CatalogArtifact:
+    catalog_path = Path(catalog_path)
+
     if not catalog_path.exists():
         raise ValueError(f"Catalog file not found at {catalog_path}")
 
