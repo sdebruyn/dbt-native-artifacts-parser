@@ -4,6 +4,7 @@ from dbt.artifacts.schemas.manifest import WritableManifest
 from dbt.artifacts.exceptions import IncompatibleSchemaError
 from dbt.artifacts.schemas.run import RunResultsArtifact
 from dbt.artifacts.schemas.freshness import FreshnessExecutionResultArtifact
+from dbt.artifacts.schemas.catalog import CatalogArtifact
 
 
 def read_manifest(manifest_path: Path) -> Manifest:
@@ -50,4 +51,18 @@ def read_sources(sources_path: Path) -> FreshnessExecutionResultArtifact:
         )
     except IncompatibleSchemaError as exc:
         exc.add_filename(str(sources_path))
+        raise
+
+
+def read_catalog(catalog_path: Path) -> CatalogArtifact:
+    if not catalog_path.exists():
+        raise ValueError(f"Catalog file not found at {catalog_path}")
+
+    if not catalog_path.is_file():
+        raise ValueError(f"Catalog path is not a file: {catalog_path}")
+
+    try:
+        return CatalogArtifact.read_and_check_versions(str(catalog_path))
+    except IncompatibleSchemaError as exc:
+        exc.add_filename(str(catalog_path))
         raise
